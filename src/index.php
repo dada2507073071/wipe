@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Document</title>
 	<style>
 		html,body{
@@ -17,9 +18,10 @@
 	</style>
 </head>
 <body>
-	<canvas id="cas" width="375" height="667">
+	<canvas id="cas" width="410" height="730">
 		
 	</canvas>
+	<div>在wbf01分支上修改</div>
 </body>
 </html>
 <script src="js/wipe.js"></script>
