@@ -1,5 +1,6 @@
+
 //gruntfile.js
-//模块化倒入函数
+//模块化导入函数
 module.exports = function(grunt){
 	//所有插件的配置信息
 	grunt.initConfig({
@@ -12,16 +13,49 @@ module.exports = function(grunt){
 			},
 			dist:{
 				src:"src/js/wipe.js",
-				dest:"dist/wipe-<%=pkg.version %>.min.js"
+				dest:"dist/js/wipe<%=pkg.version %>.min.js"
+			},
+		},
+		cssmin:{
+			options:{
+				mergeInoShorthands:false,
+				roundingPrecision:-1
+			},
+			target:{
+				files:[{
+					expand: true,
+			        cwd: 'src/css',
+			        src: ['*.css'],
+			        dest: 'dist/css',
+			        ext: '.min.css'
+				}]
 			}
 		},
 		clean:{
-			dest:['dist/*']
+			dest:['dist/*','sample/js/*']
 		},
 		jshint:{
-			test:['src/js/wipe.js'],
+			test:['src/js/wipes.js'],
 			options:{
 				jshintrc:'.jshintrc'
+			},
+		},
+		copy:{
+			js:{
+				expand:true,
+				cwd:'dist/js/',
+				src:'*.min.js',
+				dest:'sample/js/'
+			}
+		},
+		replace:{
+			example:{
+				src:['sample/index.php'],
+				overwrite:true;
+				replacements:[{
+					from:/wipe-*.min.js/g
+					to:'wipe<%=pkg.version %>.min.js'
+				}]
 			}
 		}
 	});
@@ -30,6 +64,9 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	//告诉grunt当我们想输入grunt命令后需要做些什么，有先后顺序
-	grunt.registerTask('default',['jshint','clean','uglify'])																	
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-replace');
+	
+	//告诉grunt当我们输入grunt命令后需要做些什么，有先后顺序
+	grunt.registerTask('default',['jshint','clean','uglify','copy','replace']);
 };
