@@ -2,12 +2,6 @@ var cas = document.getElementById('cas');
 var context = cas.getContext("2d");
 var _w = cas.width;
 var _h = cas.height;
-var moveX = 0;
-var moveY = 0;
-var x1 = 0;
-var x2 = 0;
-var y1 = 0;
-var y2 = 0;
 var radius = 20;//涂抹的半径
 var isMouseDown = false;//表示鼠标的状态,是否按下,默认未按下false,按下true
 var device = (/android|webos|iPhone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
@@ -63,7 +57,30 @@ function drawLine(context, x1, y1, x2, y2){
 // 		context.restore();
 // 	}
 // }
-
+function drawT(context,x1,y1,x2,y2){
+	if (arguments.length === 3) {
+		//调用花点功能
+		// console.log("传递实参的个数：" + arguments.length);
+		context.save();
+		context.beginPath();
+		context.arc(x1,y1,radius,0,2*Math.PI);
+		context.fillStyle = "red";
+		context.fill();
+		context.restore();
+	}else if (arguments.length === 5) {
+		// console.log("传递实参的个数：" + arguments.length);
+		context.save();
+		context.lineCap = "round";
+		context.beginPath();
+		context.moveTo(x1,y1);
+		context.lineTo(x2,y2);
+		context.lineWidth = radius*2;
+		context.stroke();
+		context.restore();
+	}else{
+		return false;
+	}
+}
 // 在canvas画布上监听自定义事件"mousedown",调用drawPoint函数
 cas.addEventListener(press,function(evt){
 	var event = evt || window.event;
@@ -71,7 +88,7 @@ cas.addEventListener(press,function(evt){
 	x1 = device ? event.touches[0].clientX : event.clientX;
 	y1 = device ? event.touches[0].clientY : event.clientY;
 	isMouseDown = true;
-	drawarv(context,x1,y1);
+	drawT(context,x1,y1);
 },false);
 cas.addEventListener(move,function(evt){
 	if (!isMouseDown ) {
@@ -82,12 +99,13 @@ cas.addEventListener(move,function(evt){
 		x2 = device ? event.touches[0].clientX : event.clientX;
 		y2 = device ? event.touches[0].clientY : event.clientY;
 		//drawPoint(context,a,b);
-		drawLine(context,x1,y1,x2,y2);
+		drawT(context,x1,y1,x2,y2);
 		//每次的结束点变成下一次划线的开始点
 		x1 = x2;
 		y1 = y2;
 	}
 },false);
+
 // 手势触摸
 // cas.addEventListener("touchstart",function(evt){
 // 	isMouseDown=true;
