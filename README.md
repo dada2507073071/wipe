@@ -13,7 +13,8 @@ PC端实现透明涂抹檫除效果，超过50%的涂抹面积可以查看全部
 
 使用步骤说明：
 1. 在HTML中添加指定id的canvas标签
-例如：<canvas id="cas" width="375" height="667"></canvas>
+例如：
+` <canvas id="cas" width="375" height="667"></canvas> `
 1. 编辑配置文件：
 |属性名 | 取值类型 | 备注 |
 |id | 字符串 | canvas标签的id |
